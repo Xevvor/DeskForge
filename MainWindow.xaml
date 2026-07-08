@@ -9,7 +9,8 @@
         xmlns:services="clr-namespace:DeskForge.Services"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         mc:Ignorable="d"
-        Title="DeskForge" Height="700" Width="600" MinHeight="560" MinWidth="460"
+        Title="DeskForge" Height="640" Width="680" MinHeight="520" MinWidth="500"
+        Icon="DeskForge.ico"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource BackgroundBrush}"
         FontFamily="Segoe UI"
@@ -42,7 +43,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Center">
-                    <TextBlock Text="⚡" FontSize="13" Margin="0,0,6,0"/>
+                    <controls:LogoMark Width="16" Height="16" Margin="0,0,6,0"/>
                     <TextBlock Text="DeskForge" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </StackPanel>
 
@@ -84,7 +85,7 @@
                         <!-- Logo / app name -->
                         <StackPanel DockPanel.Dock="Top" Margin="20,20,20,18">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="⚡" FontSize="22" Margin="0,0,8,0"/>
+                                <controls:LogoMark Width="28" Height="28" Margin="0,0,8,0"/>
                                 <TextBlock Text="DeskForge" FontSize="18" FontWeight="Bold"
                                            Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                             </StackPanel>

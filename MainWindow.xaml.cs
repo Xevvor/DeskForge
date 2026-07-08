@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace DeskForge;
 
@@ -12,7 +14,22 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         StateChanged += (_, _) => UpdateMaximizeIcon();
+        SourceInitialized += (_, _) => ApplyRoundedCorners();
         UpdateMaximizeIcon();
+    }
+
+    [DllImport("dwmapi.dll", PreserveSig = true)]
+    private static extern int DwmSetWindowAttribute(nint hwnd, int attribute, ref int value, int valueSize);
+
+    private const int DwmwaWindowCornerPreference = 33;
+    private const int DwmwcpRoundSmall = 3;
+
+    /// <summary>Windows 11 only; silently ignored (no-op) on older Windows since DWM rejects the unknown attribute.</summary>
+    private void ApplyRoundedCorners()
+    {
+        var hwnd = new WindowInteropHelper(this).Handle;
+        var preference = DwmwcpRoundSmall;
+        DwmSetWindowAttribute(hwnd, DwmwaWindowCornerPreference, ref preference, sizeof(int));
     }
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
