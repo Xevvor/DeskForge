@@ -6,5 +6,5 @@ namespace DeskForge.Services;
 /// </summary>
 public static class AppInfo
 {
-    public const string Version = "v0.1.4";
+    public const string Version = "v0.1.6";
 }

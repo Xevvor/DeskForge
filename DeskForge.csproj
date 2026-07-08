@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>DeskForge.ico</ApplicationIcon>
   </PropertyGroup>
 
   <!-- github/ is a standalone copy of the release payload (see repo README); publish/ is build output.
@@ -17,6 +18,10 @@
     <Compile Remove="publish/**" />
     <Page Remove="publish/**" />
     <None Remove="publish/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="DeskForge.ico" />
   </ItemGroup>
 
 </Project>

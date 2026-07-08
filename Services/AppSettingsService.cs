@@ -11,9 +11,13 @@ public class AppSettings
 /// <summary>
 /// Reads local app settings (currently just the RAWG API key) from
 /// %AppData%\DeskForge\settings.json, so secrets never need to live in source or the UI.
+/// If the file is missing (fresh install, or the folder got wiped), it's recreated with the
+/// default key on first run so artwork lookups keep working without manual intervention.
 /// </summary>
 public static class AppSettingsService
 {
+    private const string DefaultRawgApiKey = "ab30d06afa05445b87eb9ddc629bb833";
+
     private static readonly string SettingsPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DeskForge", "settings.json");
 
@@ -35,8 +39,19 @@ public static class AppSettingsService
         catch (IOException) { }
         catch (JsonException) { }
 
-        _cached = new AppSettings();
+        _cached = new AppSettings { RawgApiKey = DefaultRawgApiKey };
+        TrySave(_cached);
         return _cached;
+    }
+
+    private static void TrySave(AppSettings settings)
+    {
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
+            File.WriteAllText(SettingsPath, JsonSerializer.Serialize(settings));
+        }
+        catch (IOException) { }
     }
 
     /// <summary>Environment variable takes priority over the settings file, so CI/dev machines can override it.</summary>

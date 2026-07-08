@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="140" viewBox="0 0 560 140" fill="none">
+  <defs>
+    <linearGradient id="anvil" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9bdff"></stop>
+      <stop offset="1" stop-color="#7c5cff"></stop>
+    </linearGradient>
+    <linearGradient id="tileBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1726"></stop>
+      <stop offset="1" stop-color="#0d0c12"></stop>
+    </linearGradient>
+    <linearGradient id="wordForge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b3a0ff"></stop>
+      <stop offset="1" stop-color="#7c5cff"></stop>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.46" r="0.5">
+      <stop offset="0" stop-color="#7c5cff" stop-opacity="0.55"></stop>
+      <stop offset="1" stop-color="#7c5cff" stop-opacity="0"></stop>
+    </radialGradient>
+    <clipPath id="tileClip"><rect x="10" y="10" width="120" height="120" rx="28"></rect></clipPath>
+  </defs>
+
+  
+  <rect x="10" y="10" width="120" height="120" rx="28" fill="url(#tileBg)" stroke="#2b2740" stroke-width="1"></rect>
+  <g clip-path="url(#tileClip)">
+    <ellipse cx="70" cy="64" rx="52" ry="36" fill="url(#glow)"></ellipse>
+  </g>
+  
+  <path d="M39.76,62.8 L57.04,55.6 L98.8,55.6 L98.8,66.4 L77.2,66.4 L77.2,73.6 L87.28,84.4 L98.8,84.4 L98.8,94.48 L41.2,94.48 L41.2,84.4 L52.72,84.4 L62.8,73.6 L62.8,62.8 Z" fill="url(#anvil)"></path>
+
+  
+  <text x="158" y="80" font-family="&#39;Space Grotesk&#39;,&#39;Segoe UI&#39;,sans-serif" font-size="52" font-weight="700" letter-spacing="-1.4">
+    <tspan fill="#f2f0f7">Desk</tspan><tspan fill="url(#wordForge)">Forge</tspan>
+  </text>
+  <text x="160" y="106" font-family="&#39;JetBrains Mono&#39;,&#39;Consolas&#39;,monospace" font-size="12" font-weight="500" letter-spacing="3.2" fill="#8079a0">DESKTOP TOOLBOX</text>
+</svg>
