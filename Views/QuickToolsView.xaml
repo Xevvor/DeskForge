@@ -1,0 +1,83 @@
+<UserControl x:Class="DeskForge.Views.QuickToolsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:DeskForge.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:QuickToolsViewModel}"
+             d:DesignWidth="380">
+    <StackPanel>
+        <TextBlock Text="Quick Tools" FontSize="20" FontWeight="Bold"/>
+        <TextBlock Text="Small everyday utilities, always one click away." FontSize="12" TextWrapping="Wrap"
+                   Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,16"/>
+
+        <TextBlock Text="{Binding StatusMessage}" FontSize="12" TextWrapping="Wrap"
+                   Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
+
+        <!-- Clipboard notes -->
+        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="📋  Clipboard Notes" FontSize="14" FontWeight="SemiBold"/>
+                <TextBlock Text="A scratchpad that's saved to disk between sessions." FontSize="11" TextWrapping="Wrap"
+                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,10"/>
+                <TextBox Text="{Binding NoteText, UpdateSourceTrigger=PropertyChanged}"
+                         AcceptsReturn="True" TextWrapping="Wrap" Height="120"
+                         VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"/>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button Content="💾  Save" Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding SaveNoteCommand}" Margin="0,0,8,0"/>
+                    <Button Content="Copy" Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding CopyNoteCommand}" Margin="0,0,8,0"/>
+                    <Button Content="Clear" Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding ClearNoteCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Quick links -->
+        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="🔗  Quick Links" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                <ItemsControl ItemsSource="{Binding QuickLinks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="0,8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Icon}" FontSize="15" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="12" VerticalAlignment="Center"/>
+                                    <Button Grid.Column="2" Content="Open" Style="{StaticResource SecondaryButtonStyle}"
+                                            Padding="10,5" FontSize="11"
+                                            Command="{Binding DataContext.OpenLinkCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <!-- System shortcuts -->
+        <Border Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Text="🛠  System Shortcuts" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                <UniformGrid Columns="2" Rows="2">
+                    <Button Content="Task Manager" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,8"
+                            Command="{Binding RunShortcutCommand}" CommandParameter="taskmgr.exe"/>
+                    <Button Content="Control Panel" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,0,8"
+                            Command="{Binding RunShortcutCommand}" CommandParameter="control.exe"/>
+                    <Button Content="Settings" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0"
+                            Command="{Binding RunShortcutCommand}" CommandParameter="ms-settings:"/>
+                    <Button Content="Recycle Bin" Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding RunShortcutCommand}" CommandParameter="shell:RecycleBinFolder"/>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

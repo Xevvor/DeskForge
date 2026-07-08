@@ -1,0 +1,169 @@
+<UserControl x:Class="DeskForge.Views.LauncherView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:DeskForge.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance vm:LauncherViewModel}"
+             d:DesignWidth="380">
+    <Grid>
+        <!-- ===================== HOME ===================== -->
+        <StackPanel Visibility="{Binding Mode, Converter={StaticResource EnumVis}, ConverterParameter=Home}">
+            <TextBlock Text="Launcher" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="Your personal game hub." FontSize="12"
+                       Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,20"/>
+
+            <Button Style="{StaticResource ActionTileButtonStyle}" Command="{Binding GoToMyGamesCommand}" Margin="0,0,0,14"
+                    AutomationProperties.Name="Launch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="🎮" FontSize="28" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="Launch" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock Text="See and launch the games you've added" FontSize="11" TextWrapping="Wrap"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="0,3,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Button>
+
+            <Button Style="{StaticResource ActionTileButtonStyle}" Command="{Binding GoToFindGameCommand}"
+                    AutomationProperties.Name="Find Game">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="🔍" FontSize="28" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="Find Game" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock Text="Browse popular games and add the ones you play" FontSize="11" TextWrapping="Wrap"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Margin="0,3,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Button>
+        </StackPanel>
+
+        <!-- ===================== MY GAMES (Launch) ===================== -->
+        <StackPanel Visibility="{Binding Mode, Converter={StaticResource EnumVis}, ConverterParameter=MyGames}">
+            <Button Content="← Back" Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Left"
+                    Command="{Binding GoHomeCommand}" Margin="0,0,0,14"/>
+            <TextBlock Text="Your Games" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="{Binding StatusMessage}" FontSize="12" TextWrapping="Wrap"
+                       Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,16"/>
+
+            <Border Style="{StaticResource CardStyle}" Visibility="{Binding MyGames.Count, Converter={StaticResource ZeroCountVis}}">
+                <StackPanel>
+                    <TextBlock Text="No games yet." FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="Head to Find Game to add the first one to your launch list." FontSize="12" TextWrapping="Wrap"
+                               Foreground="{StaticResource TextSecondaryBrush}" Margin="0,6,0,14"/>
+                    <Button Content="🔍  Find Game" Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding GoToFindGameCommand}" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </Border>
+
+            <ItemsControl ItemsSource="{Binding MyGames}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}" Width="240" Margin="0,0,14,14" Padding="16">
+                            <StackPanel>
+                                <Grid>
+                                    <!-- Placeholder tile: always the base layer -->
+                                    <Border CornerRadius="10" Height="48" Width="48" HorizontalAlignment="Left" Background="{Binding AccentBrush}">
+                                        <TextBlock Text="{Binding Icon}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <!-- Real artwork on top, when available; falls through to the placeholder otherwise -->
+                                    <Border CornerRadius="10" Height="48" Width="48" HorizontalAlignment="Left">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding ImageUrl}" Stretch="UniformToFill"/>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <Border Grid.Column="1" Background="{StaticResource AccentSoftBrush}" CornerRadius="6" Padding="7,3">
+                                        <TextBlock Text="{Binding Category}" FontSize="9" FontWeight="SemiBold"
+                                                   Foreground="{StaticResource AccentHoverBrush}"/>
+                                    </Border>
+                                </Grid>
+                                <TextBlock Text="{Binding Path}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}"
+                                           Margin="0,6,0,14" TextTrimming="CharacterEllipsis"/>
+                                <Button Content="▶  Launch" Style="{StaticResource SecondaryButtonStyle}"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                        Command="{Binding DataContext.LaunchCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- ===================== FIND GAME ===================== -->
+        <StackPanel Visibility="{Binding Mode, Converter={StaticResource EnumVis}, ConverterParameter=FindGame}">
+            <Button Content="← Back" Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Left"
+                    Command="{Binding GoHomeCommand}" Margin="0,0,0,14"/>
+            <TextBlock Text="Find a Game" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="Pick a game and DeskForge will look for it on your PC." FontSize="12" TextWrapping="Wrap"
+                       Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,14"/>
+
+            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,14"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10"
+                        Visibility="{Binding IsDetecting, Converter={StaticResource BoolToVis}}">
+                <ProgressBar Style="{StaticResource LoadingBarStyle}" Width="140" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding DetectingGameName, StringFormat='Checking for {0}...'}" FontSize="12"
+                           Margin="12,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding StatusMessage}" FontSize="12" TextWrapping="Wrap"
+                       Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"/>
+
+            <ItemsControl ItemsSource="{Binding FilteredCatalog}" IsEnabled="{Binding IsDetecting, Converter={StaticResource InverseBool}}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource GameTileButtonStyle}"
+                                Command="{Binding DataContext.SelectCatalogGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                CommandParameter="{Binding}"
+                                AutomationProperties.Name="{Binding Name}">
+                            <StackPanel>
+                                <Grid>
+                                    <!-- Placeholder tile: always the base layer -->
+                                    <Border CornerRadius="10" Height="72" Background="{Binding AccentBrush}">
+                                        <TextBlock Text="{Binding Icon}" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <!-- Real artwork on top, when available; falls through to the placeholder otherwise -->
+                                    <Border CornerRadius="10" Height="72">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding CoverImageUrl}" Stretch="UniformToFill"/>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+                                <TextBlock Text="{Binding Name}" FontSize="11" FontWeight="SemiBold" TextWrapping="Wrap"
+                                           TextAlignment="Center" Margin="0,6,0,0" Foreground="{StaticResource TextPrimaryBrush}"/>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</UserControl>
