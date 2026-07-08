@@ -2,6 +2,9 @@
 bin/
 obj/
 
+# Standalone upload-ready copy (not tracked here to avoid duplicating the whole repo in history)
+/github/
+
 # Visual Studio / Rider / VS Code
 .vs/
 .vscode/

@@ -8,4 +8,15 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <!-- github/ is a standalone copy of the release payload (see repo README); publish/ is build output.
+       Both must be excluded here or the SDK's default recursive globbing double-compiles every source file. -->
+  <ItemGroup>
+    <Compile Remove="github/**" />
+    <Page Remove="github/**" />
+    <None Remove="github/**" />
+    <Compile Remove="publish/**" />
+    <Page Remove="publish/**" />
+    <None Remove="publish/**" />
+  </ItemGroup>
+
 </Project>
